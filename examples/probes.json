@@ -1,0 +1,5 @@
+[
+  {"label": "HTTPS from application subnet", "source": "10.20.1.8", "destination": "192.0.2.10", "protocol": "tcp", "port": 443},
+  {"label": "SSH from public address", "source": "198.51.100.25", "destination": "192.0.2.10", "protocol": "tcp", "port": 22},
+  {"label": "DNS from application subnet", "source": "10.20.1.8", "destination": "192.0.2.53", "protocol": "udp", "port": 53}
+]

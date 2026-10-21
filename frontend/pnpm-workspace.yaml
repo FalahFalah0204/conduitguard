@@ -1,0 +1,7 @@
+allowBuilds:
+  unrs-resolver: true
+audit:
+  level: high
+  ignore:
+    # Unpatched advisory currently arrives through dev-only eslint-config-next.
+    - GHSA-vfj7-8cjw-p6xm

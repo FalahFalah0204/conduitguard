@@ -1,0 +1,8 @@
+{
+  "default_policy": "deny",
+  "rules": [
+    {"id": "allow-https", "source": "10.20.0.0/16", "destination": "192.0.2.10", "protocol": "tcp", "port": 443, "action": "allow", "priority": 100, "description": "HTTPS from app subnet"},
+    {"id": "allow-dns", "source": "10.20.0.0/16", "destination": "192.0.2.53", "protocol": "udp", "port": 53, "action": "allow", "priority": 100, "description": "DNS resolver access"},
+    {"id": "allow-admin", "source": "*", "destination": "192.0.2.10", "protocol": "tcp", "port": 22, "action": "allow", "priority": 100, "description": "Temporary admin access"}
+  ]
+}
