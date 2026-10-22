@@ -240,14 +240,15 @@ def findings(before: FirewallConfig, after: FirewallConfig, diff: dict[str, Any]
 
 def analyze(request: AnalyzeRequest) -> dict[str, Any]:
     changes = diff_configs(request.before, request.after)
+    policy_findings = findings(request.before, request.after, changes)
     return {
         "changes": changes,
-        "findings": findings(request.before, request.after, changes),
+        "findings": policy_findings,
         "simulation": {
             "before": simulate(request.before, request.probes),
             "after": simulate(request.after, request.probes),
         },
-        "recommendations": [f["mitigation"] for f in findings(request.before, request.after, changes)],
+        "recommendations": [f["mitigation"] for f in policy_findings],
         "rules_version": RULES_VERSION,
         "assumptions": [
             SUPPORTED_SEMANTICS,

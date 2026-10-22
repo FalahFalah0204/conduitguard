@@ -109,6 +109,51 @@ pnpm build
 pnpm audit --audit-level=high
 ```
 
+### Test results (Python 3.12.3, pytest 9.1.1)
+
+```
+platform win32 -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0
+rootdir: conduitguard
+configfile: pyproject.toml
+collected 19 items
+
+backend/tests/test_analysis.py::test_order_only_change_is_unchanged                          PASSED
+backend/tests/test_analysis.py::test_added_removed_and_changed_are_reported                  PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data0]                           PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data1]                           PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data2]                           PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data3]                           PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data4]                           PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data5]                           PASSED
+backend/tests/test_analysis.py::test_rejects_invalid_config[data6]                           PASSED
+backend/tests/test_analysis.py::test_simulation_priority_wildcard_protocol_and_default       PASSED
+backend/tests/test_analysis.py::test_policy_findings_cover_wide_admin_conflict_and_expansion PASSED
+backend/tests/test_analysis.py::test_identical_configs_have_no_diff_findings_and_report_assumptions PASSED
+backend/tests/test_analysis.py::test_existing_allow_default_is_flagged_even_without_a_change PASSED
+backend/tests/test_analysis.py::test_zero_prefix_ranges_and_wildcard_admin_ports_are_flagged PASSED
+backend/tests/test_api.py::test_health_and_openapi                                           PASSED
+backend/tests/test_api.py::test_validate_empty_bad_json_and_valid_config                     PASSED
+backend/tests/test_api.py::test_analyze_and_schema_failure                                   PASSED
+backend/tests/test_api.py::test_body_limit                                                   PASSED
+backend/tests/test_api.py::test_end_to_end_demo_analysis_and_invalid_input                   PASSED
+
+19 passed, 1 warning in 0.44s
+```
+
+**Coverage by area:**
+
+| Area | Tests | Result |
+|------|-------|--------|
+| Config parser — valid inputs | 5 | ✅ passed |
+| Config parser — 7 invalid inputs (bad types, missing fields, duplicate IDs, invalid CIDR, ICMP+port) | 7 | ✅ passed |
+| Diff engine — order-only, added, removed, changed | 2 | ✅ passed |
+| Security policy findings — all 4 codes (CG-POL-001 to 004) | 3 | ✅ passed |
+| Connectivity simulator — priority, wildcard, protocol, default | 1 | ✅ passed |
+| API endpoints — health, validate, analyze, OpenAPI | 4 | ✅ passed |
+| API error handling — 413 body limit, 422 schema error, CORS on error | 1 | ✅ passed |
+| End-to-end demo flow | 1 | ✅ passed |
+| **Total** | **19** | **✅ 19 passed** |
+
 Tests cover malformed/empty/oversized payloads, missing and mistyped fields, duplicate IDs, identity and order-only diffs, added/removed/changed rules, policy checks, wildcard/protocol/port/priorities, allow/deny decisions, API errors, OpenAPI, and JSON-serializable reports. Simulator expectations are asserted directly against small fixtures. CI also runs `pip-audit -r backend/requirements.txt` and GitHub dependency review on pull requests.
 
 For a black-box smoke test, start the backend as described above. In a second terminal, build and start the production frontend:
